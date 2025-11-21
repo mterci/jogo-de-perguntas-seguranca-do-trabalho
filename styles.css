@@ -1,7 +1,7 @@
 /* Consolidated, corrected CSS implementing the requested palette and layouts */
 :root {
     --cream: #f6efe6;
-    --cream-2: #fffdf8; /* lighter cream for next button */
+    --cream-2: #fffdf8; /* lighter cream */
     --overlay-blue-start: #bfe9ff; /* baby blue start */
     --overlay-blue-end: #8fd8ff; /* baby blue end */
     --text-color: #0b0b0b;
@@ -157,7 +157,7 @@ button:hover {
         var(--overlay-blue-end)
     );
 }
-/* Smooth vertical hover animation for next and start buttons */
+/* vertical hover animation for next and start buttons */
 .start-game-btn {
     transform: translateY(0);
     transition: transform 220ms cubic-bezier(0.2, 0.9, 0.2, 1),
@@ -199,9 +199,7 @@ button:hover {
     color: var(--text-color);
     cursor: pointer;
     position: fixed;
-    /* center the button horizontally and give it the same inner width as the container
-       (container max-width 1100px minus 32px horizontal padding). This keeps left/right
-       identical on wide and narrow viewports and matches the players grid width. */
+    
     left: 50%;
     transform: translateX(-50%) translateY(0);
     width: calc(min(1100px, 100vw) - 32px);
@@ -253,7 +251,7 @@ button:hover {
 .player-options {
     display: flex;
     flex-direction: column; /* force options stacked vertically */
-    gap: 6px; /* compact spacing between options */
+    gap: 6px; /* spacing between options */
 }
 
 /* For non-centered layouts (4 players or more), increase the gap between
@@ -344,7 +342,7 @@ button:hover {
 }
 
 /* stronger specificity to ensure revealed-correct shows correctly inside both
-   beige and gray player cards (override any earlier border-color/background rules) */
+   beige and gray player cards */
 .player-card.player-even .player-options button.revealed-correct,
 .player-card.player-odd .player-options button.revealed-correct {
     background: transparent !important;
@@ -361,10 +359,9 @@ button:hover {
 }
 
 /* When we force the full layout (used for 1-3 players), keep the container width consistent
-   with the 4+ players layout on wide screens. We allow small viewports to behave normally. */
+   with the 4+ players layout on wide screens */
 body.force-full-layout .container {
-    /* Force the container to the normal max layout width on wide screens so
-       1-3 players layout visually matches 4+ players. Kept responsive below 1200px. */
+
     min-width: 960px; /* fallback */
 }
 @media (max-width: 1200px) {
