@@ -446,7 +446,6 @@ const bancoPerguntas = [
     },
 ];
 
-// Removed automatic filler questions to avoid 'Pergunta extra...' placeholders.
 
 function iniciarJogo() {
     let n = null;
@@ -824,7 +823,6 @@ function startQuestionTimer(seconds, onEnd) {
         bottomTimer.innerText =
             "Tempo restante: " + Math.ceil(remainingTime) + "s";
 
-    // do NOT start a continuous suspense drone (user requested silence during answer time)
 
     // track the displayed whole seconds so we can pulse on change
     let prevDisplayed = Math.ceil(remainingTime);
@@ -1051,7 +1049,7 @@ function accelerateTime(fraction) {
     setTimeout(() => (bottomTimer.style.transform = ""), 350);
 
     // create a new delta element attached to the document body (fixed position)
-    const baseTopOffset = -33; // moved 5px closer as requested
+    const baseTopOffset = -33;
     const step = 18;
     const maxStack = 6; // allow more stacked deltas
 
@@ -1064,7 +1062,7 @@ function accelerateTime(fraction) {
     // measure width and center the delta above the timer, then move 15px to the right
     const deltaWidth = deltaEl.offsetWidth || 40;
     const centerLeft = rect.left + rect.width / 2 - deltaWidth / 2;
-    const leftPos = Math.max(8, centerLeft + 60); // move 60px right (40 -> 60), min 8px from viewport
+    const leftPos = Math.max(8, centerLeft + 60); // move 60px right, min 8px from viewport
     deltaEl.style.left = leftPos + "px";
     // compute initial top positioned just above the timer (10px margin)
     const initialTop = rect.top - 10;
