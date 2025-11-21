@@ -1,0 +1,872 @@
+/* Consolidated, corrected CSS implementing the requested palette and layouts */
+:root {
+    --cream: #f6efe6;
+    --cream-2: #fffdf8; /* lighter cream for next button */
+    --overlay-blue-start: #bfe9ff; /* baby blue start */
+    --overlay-blue-end: #8fd8ff; /* baby blue end */
+    --text-color: #0b0b0b;
+    --delta-red: #e53935;
+}
+
+/* (center-players layout removed - reverted to original styles) */
+
+* {
+    box-sizing: border-box;
+}
+html,
+body {
+    height: 100%;
+}
+body {
+    margin: 0;
+    position: relative;
+    padding: 6px 10px;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, Arial, sans-serif;
+    background: var(--cream);
+    color: var(--text-color);
+    -webkit-font-smoothing: antialiased;
+}
+
+/* subtle blurred layer behind the main container */
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background: linear-gradient(
+        180deg,
+        var(--cream-2),
+        rgba(255, 255, 255, 0.6)
+    );
+    filter: blur(10px);
+    z-index: 0;
+    pointer-events: none;
+}
+
+.container {
+    max-width: 1100px;
+    margin: 8px auto;
+    background: #fffefc;
+    padding: 14px 16px;
+    border-radius: 10px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+    position: relative;
+    z-index: 1;
+    max-height: calc(100vh - 16px);
+    overflow: hidden;
+}
+
+.hidden {
+    display: none;
+}
+
+button {
+    padding: 8px 14px;
+    margin: 6px 6px 0 0;
+    cursor: pointer;
+    border-radius: 10px;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    background: transparent; /* buttons are transparent by default */
+    color: var(--text-color);
+    transition: background 220ms ease, transform 140ms ease, color 220ms ease,
+        box-shadow 220ms ease;
+}
+button:hover {
+    transform: translateY(-4px);
+    background: linear-gradient(
+        90deg,
+        var(--overlay-blue-start),
+        var(--overlay-blue-end)
+    );
+    color: var(--text-color); /* keep text black on hover */
+    box-shadow: 0 10px 22px rgba(0, 0, 0, 0.08);
+}
+
+/* Player-count buttons row (1..6) - side-by-side */
+.player-count-row {
+    display: flex;
+    gap: 8px;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
+    margin: 8px 0 12px 0;
+}
+.player-count-btn {
+    min-width: 84px;
+    padding: 8px 12px;
+    border-radius: 10px;
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    background: linear-gradient(180deg, #fff, #f7f7f7);
+    font-weight: 700;
+}
+.player-count-btn.active {
+    background: linear-gradient(
+        90deg,
+        var(--overlay-blue-start),
+        var(--overlay-blue-end)
+    );
+    color: var(--text-color);
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.08);
+    transform: none;
+}
+
+/* Player names area: centered and stacked (one per line) */
+.player-names-centered {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    margin-top: 8px;
+}
+.player-names-centered .player-row {
+    width: 100%;
+    max-width: 480px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+.player-names-centered label {
+    margin-right: 8px;
+}
+.player-names-centered input.playerNameInput {
+    flex: 1;
+    padding: 8px 10px;
+    border-radius: 8px;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+/* Start game button in the setup area: match visual weight and width of the next button */
+.start-game-btn {
+    display: block;
+    width: calc(100% - 32px);
+    max-width: 720px;
+    margin: 12px auto 0 auto;
+    padding: 12px 16px;
+    font-weight: 800;
+    border-radius: 10px;
+    border: none;
+    background: var(--cream-2);
+    color: var(--text-color);
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.06);
+    cursor: pointer;
+}
+.start-game-btn:hover {
+    transform: translateY(-3px);
+    background: linear-gradient(
+        90deg,
+        var(--overlay-blue-start),
+        var(--overlay-blue-end)
+    );
+}
+/* Smooth vertical hover animation for next and start buttons */
+.start-game-btn {
+    transform: translateY(0);
+    transition: transform 220ms cubic-bezier(0.2, 0.9, 0.2, 1),
+        box-shadow 220ms ease, background 220ms ease;
+}
+
+.next-full {
+    display: block;
+    margin-top: 12px;
+    padding: 14px 18px;
+    font-size: 18px;
+    font-weight: 800;
+    border: none;
+    border-radius: 10px;
+    background: var(--cream-2);
+    color: var(--text-color);
+    cursor: pointer;
+    position: fixed;
+    /* center the button horizontally and give it the same inner width as the container
+       (container max-width 1100px minus 32px horizontal padding). This keeps left/right
+       identical on wide and narrow viewports and matches the players grid width. */
+    left: 50%;
+    transform: translateX(-50%);
+    width: calc(min(1100px, 100vw) - 32px);
+    bottom: 20px;
+    box-sizing: border-box;
+    z-index: 2002;
+    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.08);
+}
+.next-full {
+    display: block;
+    margin-top: 12px;
+    padding: 14px 18px;
+    font-size: 18px;
+    font-weight: 800;
+    border: none;
+    border-radius: 10px;
+    background: var(--cream-2);
+    color: var(--text-color);
+    cursor: pointer;
+    position: fixed;
+    /* center the button horizontally and give it the same inner width as the container
+       (container max-width 1100px minus 32px horizontal padding). This keeps left/right
+       identical on wide and narrow viewports and matches the players grid width. */
+    left: 50%;
+    transform: translateX(-50%) translateY(0);
+    width: calc(min(1100px, 100vw) - 32px);
+    bottom: 20px;
+    box-sizing: border-box;
+    z-index: 2002;
+    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.08);
+    transition: transform 220ms cubic-bezier(0.2, 0.9, 0.2, 1),
+        box-shadow 220ms ease, background 220ms ease;
+}
+.next-full:hover {
+    background: linear-gradient(
+        90deg,
+        var(--overlay-blue-start),
+        var(--overlay-blue-end)
+    );
+    color: var(--text-color);
+    /* keep centered and only move vertically on hover */
+    transform: translateX(-50%) translateY(-6px);
+}
+
+.player-card {
+    border-radius: 10px;
+    overflow: hidden;
+}
+.player-card > div {
+    border-radius: 8px;
+}
+
+.player-card.player-even {
+    background: linear-gradient(
+        180deg,
+        #efe2d2,
+        #f4eadf
+    ); /* slightly darker cream */
+    border-color: rgba(0, 0, 0, 0.06);
+}
+.player-card.player-even .player-options button {
+    border-color: rgba(0, 0, 0, 0.08);
+}
+.player-card.player-even
+    .player-options
+    button:not(.selected):not(.correct):not(.incorrect):hover {
+    /* do not change background color on hover for option buttons that are already selected/correct/incorrect */
+    background: transparent;
+    color: var(--text-color);
+}
+
+.player-options {
+    display: flex;
+    flex-direction: column; /* force options stacked vertically */
+    gap: 6px; /* compact spacing between options */
+}
+
+/* For non-centered layouts (4 players or more), increase the gap between
+   option buttons so it matches the visual spacing used for larger player counts. */
+/* option buttons appear flat, matching card background */
+.player-options button {
+    background: transparent;
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    color: var(--text-color);
+    padding: 8px 10px;
+    border-radius: 8px;
+    transition: background 200ms ease, color 200ms ease, transform 180ms ease,
+        opacity 300ms ease;
+    width: 100%;
+    text-align: left;
+    font-size: 14px;
+}
+.player-options button:not(.selected):not(.correct):not(.incorrect):hover {
+    transform: translateY(-2px);
+    /* keep hover text readable and do not change background for unselected buttons */
+    color: var(--text-color);
+    background: transparent;
+}
+.player-options button.selected {
+    background: linear-gradient(
+        90deg,
+        var(--overlay-blue-start),
+        var(--overlay-blue-end)
+    );
+    border-color: rgba(0, 0, 0, 0.06);
+    color: var(--text-color);
+}
+
+/* deterministic per-player subtle tints to help visually distinguish players */
+.player-card.player-pos-1 {
+    background: linear-gradient(180deg, #ffffff, #fbfbfb);
+} /* default */
+.player-card.player-pos-2 {
+    background: linear-gradient(180deg, #f7f2ec, #f0e7db);
+} /* warm cream */
+.player-card.player-pos-3 {
+    background: linear-gradient(180deg, #f6fbff, #eef9ff);
+} /* very pale blue */
+.player-card.player-pos-4 {
+    background: linear-gradient(180deg, #fff8f9, #fff2f4);
+} /* very pale pink */
+.player-card.player-pos-5 {
+    background: linear-gradient(180deg, #f9fff6, #efffee);
+} /* very pale green */
+.player-card.player-pos-6 {
+    background: linear-gradient(180deg, #fffdf7, #fff8ee);
+} /* subtle yellow */
+/* Explicit odd/even palette override: ensure players 1,3,5 use darker cream and
+   players 2,4,6 use light gray across all player counts (1-6) */
+.player-card.player-odd {
+    background: linear-gradient(
+        180deg,
+        #efe2d2,
+        #f4eadf
+    ) !important; /* darker cream */
+    border-color: rgba(0, 0, 0, 0.06) !important;
+}
+.player-card.player-even {
+    background: linear-gradient(
+        180deg,
+        #f2f2f2,
+        #ececec
+    ) !important; /* light gray */
+    border-color: rgba(0, 0, 0, 0.06) !important;
+}
+.player-options button.incorrect {
+    background: var(--delta-red);
+    border-color: #b71c1c;
+    color: #fff;
+}
+.player-options button.correct {
+    background: #4caf50;
+    border-color: #2e7d32;
+    color: #fff;
+}
+
+/* When we reveal the correct option for players who didn't choose it, show a green
+   border only so it differs visually from players who actually selected correctly. */
+.player-options button.revealed-correct {
+    background: transparent;
+    border: 2px solid #4caf50;
+    color: var(--text-color);
+}
+
+/* stronger specificity to ensure revealed-correct shows correctly inside both
+   beige and gray player cards (override any earlier border-color/background rules) */
+.player-card.player-even .player-options button.revealed-correct,
+.player-card.player-odd .player-options button.revealed-correct {
+    background: transparent !important;
+    border: 2px solid #4caf50 !important;
+    color: var(--text-color) !important;
+}
+
+.players-grid {
+    display: grid;
+    gap: 12px;
+    align-items: stretch;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* When we force the full layout (used for 1-3 players), keep the container width consistent
+   with the 4+ players layout on wide screens. We allow small viewports to behave normally. */
+body.force-full-layout .container {
+    /* Force the container to the normal max layout width on wide screens so
+       1-3 players layout visually matches 4+ players. Kept responsive below 1200px. */
+    min-width: 960px; /* fallback */
+}
+@media (max-width: 1200px) {
+    body.force-full-layout .container {
+        min-width: auto; /* don't force min-width on narrow viewports */
+    }
+}
+
+@media (min-width: 1200px) {
+    /* On wide screens, lock container to full layout width when forcing full layout */
+    body.force-full-layout .container {
+        width: 1100px;
+        max-width: 1100px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    /* Ensure the players grid lines up with the container inner width */
+    body.force-full-layout .players-grid {
+        max-width: calc(1100px - 32px);
+        margin-left: auto;
+        margin-right: auto;
+    }
+    /* Pin the fixed next button to the container inner edges so it matches the players grid
+       on wide screens when force-full-layout is active (1-4 players). */
+    body.force-full-layout .next-full {
+        position: fixed;
+        left: calc((100vw - 1100px) / 2 + 16px);
+        right: calc((100vw - 1100px) / 2 + 16px);
+        width: auto;
+        /* use translateY for vertical movement so hover can animate smoothly
+           (avoid interfering with horizontal pinning). */
+        transform: translateY(0);
+        transition: transform 220ms cubic-bezier(0.2, 0.9, 0.2, 1),
+            box-shadow 220ms ease, background 220ms ease;
+    }
+    /* When pinned, only move vertically on hover (override the centered hover rule). */
+    body.force-full-layout .next-full:hover {
+        transform: translateY(-6px);
+    }
+
+    /* Force the container to take almost full available viewport height on wide screens
+       when force-full-layout is active so layouts for 1-3 players visually match 4+.
+       Keep a small vertical margin to avoid touching the edges. */
+    body.force-full-layout .container {
+        height: calc(100vh - 120px);
+        min-height: calc(100vh - 200px);
+        overflow: hidden;
+    }
+
+    /* Allow option groups to expand and distribute their buttons vertically so cards
+       appear taller and fill vertical space when there are fewer players. */
+    body.force-full-layout .player-card {
+        /* increase minimum height slightly so cards look balanced when stretched */
+        min-height: 160px;
+    }
+    body.force-full-layout .player-options {
+        display: flex;
+        flex-direction: column;
+        flex: 1 1 auto;
+        justify-content: space-between; /* distribute options vertically */
+        gap: 6px; /* keep compact when forcing full layout */
+    }
+
+    /* Keep the grid gap consistent with default layout to avoid overflow */
+    body.force-full-layout .players-grid {
+        gap: 20px;
+    }
+}
+
+/* Center layout for small player counts (1-3): center body and players grid both
+   horizontally and vertically to create a balanced single-screen view. */
+body.center-players {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 0; /* remove extra padding so centering is precise */
+}
+body.center-players .container {
+    margin: 0;
+    max-height: none;
+    width: min(1100px, 95vw);
+    box-sizing: border-box;
+}
+/* Ensure players grid and simple player rows center their items */
+body.center-players .players-grid,
+body.center-players .players-row {
+    display: grid;
+    justify-items: center;
+    align-items: center;
+    gap: 12px;
+    width: calc(
+        min(1100px, 95vw) - 32px
+    ); /* make grid match container inner width */
+    margin-left: auto;
+    margin-right: auto;
+}
+body.center-players .player-card {
+    margin: 8px 0;
+}
+
+/* When exactly 4 players are selected, ensure the next button width matches the players grid width */
+body.players-4 .next-full {
+    left: 50%;
+    transform: translateX(-50%) translateY(0);
+    width: calc(min(1100px, 100vw) - 32px);
+}
+
+/* Ensure the small vertical hover animation (translateY) still occurs for 4-player layout */
+body.players-4 .next-full:hover {
+    transform: translateX(-50%) translateY(-6px);
+}
+
+/* Expand cards to fill the grid column in centered (1-3 players) layout */
+body.center-players .players-grid .player-card {
+    width: 100%;
+    max-width: none;
+}
+.players-grid .player-card {
+    background: linear-gradient(180deg, #ffffff, #fbfbfb);
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    padding: 8px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 84px;
+}
+
+/* Rows used for special player layouts */
+.players-row-1 {
+    margin-bottom: 12px;
+}
+.players-row-2 {
+    margin-top: 6px;
+}
+.players-row-2 .player-card {
+    width: min(340px, 42%);
+}
+
+/* compact layout for 6 players */
+.compact-grid {
+    font-size: 13px;
+    gap: 6px;
+}
+
+/* ensure the main container never forces scrolling; scale down a bit if necessary */
+.container {
+    max-height: calc(100vh - 16px);
+}
+
+/* reduce paddings slightly to help keep all content visible */
+body {
+    padding: 6px 10px;
+}
+
+/* make next button span full padding area inside the players grid */
+.players-grid .next-full,
+.players-row .next-full,
+.players-row-1 .next-full {
+    grid-column: 1 / -1;
+    width: 100%;
+    margin: 12px 0 0 0;
+    padding: 14px 18px;
+    box-sizing: border-box;
+}
+
+/* Question header layout: index (gray) + centered question on same line */
+.question-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    justify-content: center;
+    position: relative;
+}
+
+#jogadorAtualTitulo {
+    font-size: 14px;
+    color: rgba(11, 11, 11, 0.45);
+    font-weight: 700;
+    margin: 0;
+    white-space: nowrap;
+    /* anchor to left padding inside the container */
+    position: absolute;
+    left: 0;
+    transform: none;
+}
+
+#perguntaTexto {
+    font-size: 20px; /* increased for better readability */
+    margin: 0;
+    text-align: center;
+    font-weight: 700;
+    line-height: 1.18;
+    /* center in viewport regardless of the left label */
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 72%;
+}
+
+@media (max-width: 520px) {
+    .question-row {
+        flex-direction: column;
+        gap: 6px;
+    }
+    #jogadorAtualTitulo {
+        opacity: 0.85;
+    }
+    #perguntaTexto {
+        position: static;
+        transform: none;
+        width: auto;
+        font-size: 16px; /* scale down on small screens */
+        line-height: 1.2;
+        padding: 0 8px;
+    }
+    #jogadorAtualTitulo {
+        position: static;
+        left: auto;
+    }
+}
+
+@media (min-width: 1200px) {
+    /* larger question text on wide screens */
+    #perguntaTexto {
+        font-size: 24px;
+    }
+}
+
+.score-badge {
+    display: inline-block;
+    margin-left: 10px;
+    color: #4caf50;
+    font-size: 16px;
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: transform 360ms cubic-bezier(0.2, 0.9, 0.2, 1),
+        opacity 700ms ease-in-out;
+    font-weight: 700;
+}
+.score-badge.show {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+/* deltas shown at bottom-right; multiple deltas stack vertically */
+.global-delta {
+    position: fixed;
+    font-weight: 700;
+    color: var(--delta-red);
+    right: 24px;
+    bottom: 80px;
+    z-index: 10002;
+    pointer-events: none;
+    transform: translateY(0);
+    opacity: 1;
+    transition: transform 700ms cubic-bezier(0.2, 0.9, 0.2, 1),
+        opacity 700ms linear;
+}
+.global-delta.timer-delta {
+    /* make timer deltas slightly right-offset and narrower so they stack visually */
+    right: 32px;
+    bottom: 88px;
+}
+.global-delta.fade {
+    transform: translateY(-28px);
+    opacity: 0;
+}
+
+/* Bottom progress bar (shrinks from right to left by reducing width) */
+#bottomBar {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 12px;
+    background: rgba(0, 0, 0, 0.04);
+    z-index: 9998;
+    display: none;
+}
+#progressBar {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+    background: linear-gradient(
+        90deg,
+        var(--overlay-blue-start),
+        var(--overlay-blue-end)
+    );
+    transition: width 220ms linear;
+}
+
+#bottomTimer {
+    position: fixed;
+    right: 16px;
+    bottom: 20px;
+    background: rgba(255, 255, 255, 0.98);
+    color: var(--text-color);
+    padding: 8px 12px;
+    border-radius: 8px;
+    font-weight: 700;
+    z-index: 10001;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.05);
+    display: none;
+}
+
+/* reserve vertical space inside the options area so the next button isn't cut off */
+#opcoes {
+    padding-bottom: 132px;
+    padding-top: 18px;
+    position: relative;
+    /* ensure options area keeps the same visual height regardless of player count */
+    min-height: 420px;
+}
+
+/* when overlay is active, gently blur and dim the main container to emphasize the card */
+body.overlay-active .container {
+    filter: blur(6px);
+    opacity: 0.8;
+    transition: filter 220ms ease, opacity 220ms ease;
+}
+
+/* smoother overlay fade-out support */
+.overlay {
+    transition: opacity 360ms ease, background 360ms ease;
+    opacity: 1;
+}
+.overlay.fade-out {
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* overlays */
+.overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+}
+.overlay.show {
+    display: flex;
+    /* soft backdrop blur while overlay visible */
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(6px);
+}
+.overlay-card {
+    color: var(--text-color);
+    padding: 36px 56px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    text-align: center;
+    transform: scale(0.98);
+    opacity: 0;
+    transition: transform 260ms ease, opacity 260ms ease;
+}
+.overlay.show .overlay-card {
+    transform: none;
+    opacity: 1;
+}
+.timeup-card {
+    background: linear-gradient(135deg, #ff8a65, #ff7043);
+    font-size: 36px;
+    font-weight: 700;
+    border-radius: 12px;
+}
+.big-card {
+    background: linear-gradient(
+        135deg,
+        var(--overlay-blue-start),
+        var(--overlay-blue-end)
+    );
+    font-size: 44px;
+    font-weight: 800;
+    border-radius: 14px;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6);
+}
+.overlay-hint {
+    color: var(--text-color);
+    text-align: center;
+    font-size: 16px;
+    /* place the hint under the card inside the overlay center */
+    position: static;
+    margin-top: 12px;
+    pointer-events: none;
+}
+
+.podio-grid {
+    display: grid;
+    /* use auto columns and center them so shelves can be wider and closer */
+    grid-template-columns: repeat(3, auto);
+    justify-content: center;
+    align-items: end;
+    column-gap: 18px; /* bring shelves closer */
+    height: 415px; /* adjusted to requested 415px */
+    position: relative;
+}
+.podio-grid .place {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+}
+.podio-grid .place1 {
+    grid-column: 2 / 3;
+}
+.podio-grid .place2 {
+    grid-column: 1 / 2;
+}
+.podio-grid .place3 {
+    grid-column: 3 / 4;
+}
+.podio-shelf {
+    margin: 0; /* touch neighboring shelves so borders connect visually */
+    background: linear-gradient(180deg, #fffefc, #f6efe6);
+    border: 2px solid rgba(0, 0, 0, 0.06);
+    padding: 10px 12px;
+    border-radius: 6px 6px 0 0;
+    font-weight: 800;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start; /* label at top, points below */
+    align-items: center;
+}
+/* ensure shelves visually touch across the grid by removing internal gaps
+   and aligning border radii to avoid visible seams */
+.podio-grid .podio-shelf {
+    box-shadow: none;
+    border-left-width: 1px;
+    border-right-width: 1px;
+}
+/* heights: first tallest, second medium, third lowest — bottoms aligned */
+/* Remove fixed heights; JS will set heights. Instead assign a common width
+   so shelves are wider and closer. Use max-width to keep responsive. */
+.podio-grid .podio-shelf {
+    width: min(260px, 28vw);
+    box-sizing: border-box;
+}
+.place .name {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 700;
+}
+.podio-shelf .label {
+    font-size: 20px;
+    margin-top: 6px;
+}
+.podio-shelf .points {
+    font-size: 16px;
+    margin-top: 8px;
+    color: var(--text-color);
+    font-weight: 700;
+}
+
+.podio-grid {
+    min-height: 415px;
+}
+.podio-grid .place1,
+.podio-grid .place2,
+.podio-grid .place3 {
+    transform: none;
+}
+/* Make the center column slightly visually raised (extra spacing handled by heights) */
+.podio-grid .place1 {
+    align-self: end;
+}
+
+/* Color variants for podium shelves */
+.podio-grid .place1 .podio-shelf {
+    background: linear-gradient(180deg, #fff6d6, #ffdf6b); /* gold */
+    border-color: rgba(180, 140, 0, 0.45);
+}
+.podio-grid .place2 .podio-shelf {
+    background: linear-gradient(180deg, #f4f6f8, #e1e5ea); /* silver */
+    border-color: rgba(120, 130, 140, 0.25);
+}
+.podio-grid .place3 .podio-shelf {
+    background: linear-gradient(180deg, #f1e5d6, #d6a76a); /* bronze */
+    border-color: rgba(120, 60, 20, 0.25);
+}
+#bottomTimer {
+    right: 8px;
+    bottom: 12px;
+}
+
+/* When final results overlay is shown, give extra vertical space so the podium
+   appears lower on the viewport and doesn't feel cramped. Applied by JS
+   toggling the `final-results-expanded` class on the <body>. */
+body.final-results-expanded {
+    /* keep the viewport height; avoid increasing document height to prevent extra blank space */
+    min-height: 100vh;
+}
+body.final-results-expanded .container {
+    /* visually push the container down without increasing page height */
+    transform: translateY(12vh);
+    padding-top: 48px;
+    padding-bottom: 56px;
+    max-height: calc(100vh - 24px);
+    transition: transform 260ms ease;
+}

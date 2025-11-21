@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jogo de Segurança no Trabalho</title>
+    <link rel="stylesheet" href="styles.css">
+    <meta name="robots" content="noindex">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+</head>
+<body>
+    <div class="container">
+        <h1>Jogo de Perguntas – Segurança no Trabalho</h1>
+
+        <div id="setup">
+            <h3>Quantidade de Jogadores (1 a 6):</h3>
+            <div id="playerCountButtons" class="player-count-row" aria-label="Escolha número de jogadores">
+                <button class="player-count-btn" data-count="1">1 jogador</button>
+                <button class="player-count-btn" data-count="2">2 jogadores</button>
+                <button class="player-count-btn" data-count="3">3 jogadores</button>
+                <button class="player-count-btn" data-count="4">4 jogadores</button>
+                <button class="player-count-btn" data-count="5">5 jogadores</button>
+                <button class="player-count-btn" data-count="6">6 jogadores</button>
+            </div>
+            <div id="playerNamesContainer" class="player-names-centered"></div>
+        </div>
+
+        <div id="perguntaArea" class="hidden">
+            <div class="question-row">
+                <h2 id="jogadorAtualTitulo"></h2>
+                <h3 id="perguntaTexto"></h3>
+            </div>
+            <div id="opcoes"></div>
+        </div>
+
+        <div id="podio" class="hidden">
+            <h2>🏆 Pódio – Melhores Pontuações</h2>
+            <div class="podio" id="podioLista"></div>
+        </div>
+    </div>
+
+    <!-- overlay para 'Acabou o tempo' -->
+    <div id="timeUpOverlay" class="overlay">
+        <div id="timeUpCard" class="overlay-card timeup-card">
+            Acabou o tempo!
+        </div>
+    </div>
+
+    <!-- big overlay genérico para mensagens (Jogo iniciado, Próxima rodada, Resultados finais) -->
+    <div id="bigOverlay" class="overlay">
+        <div id="bigOverlayCard" class="overlay-card big-card">
+            <div id="bigOverlayTitle">Mensagem</div>
+        </div>
+        <div id="bigOverlayHint" class="overlay-hint">&nbsp;</div>
+    </div>
+
+    <!-- barra de progresso fixa inferior e temporizador -->
+    <div id="bottomBar" aria-hidden="false">
+        <div id="progressBar"></div>
+    </div>
+    <div id="bottomTimer" aria-live="polite">Tempo restante: 0s</div>
+    <!-- place a final-results looping audio here (put your file at assets/final_loop.mp3) -->
+    <audio id="finalLoopAudio" src="assets/final_loop.mp3" preload="auto"></audio>
+    <script src="script.js"></script>
+</body>
+</html>
